@@ -79,18 +79,19 @@
         <div class="card form-card">
           <h3>Neuer allgemeiner Schaden</h3>
           <div class="form-grid">
-            <label>Firma<select><option>STL</option><option>BTS</option><option>TRC</option><option>LTM</option><option>TCL</option><option>RTS</option><option>SCH</option></select></label>
-            <label>Schadenart<select><option>Transportbeschädigung Ware</option><option>Verlust / Fehlmenge Ware</option><option>Diebstahl / Raub</option><option>Lieferverzug / Verspätung</option></select></label>
-            <label>Schadentag<input type="date" /></label>
-            <label>Schadenzeit<input type="time" /></label>
-            <label>Auftraggeber<input placeholder="Kunde / Auftraggeber" /></label>
-            <label>Tour Nr.<input placeholder="Tour / Referenz" /></label>
-            <label>Kennzeichen LKW<input placeholder="z. B. CZ-12345" /></label>
-            <label>Kennzeichen Auflieger<input placeholder="z. B. CZ-67890" /></label>
-            <label class="wide">Schadensort<input placeholder="Adresse / Koordinaten" /></label>
-            <label class="wide">Was ist passiert?<textarea placeholder="Kurze Beschreibung"></textarea></label>
+            <label>Firma<select id="snrCompany"><option>STL</option><option>BTS</option><option>TRC</option><option>LTM</option><option>TCL</option><option>RTS</option><option>SCH</option></select></label>
+            <label>Schadenart<select id="snrDamageType"><option>Transportbeschädigung Ware</option><option>Verlust / Fehlmenge Ware</option><option>Diebstahl / Raub</option><option>Lieferverzug / Verspätung</option></select></label>
+            <label>Schadentag<input id="snrDamageDate" type="date" /></label>
+            <label>Schadenzeit<input id="snrDamageTime" type="time" /></label>
+            <label>Auftraggeber<input id="snrClient" placeholder="Kunde / Auftraggeber" /></label>
+            <label>Tour Nr.<input id="snrTour" placeholder="Tour / Referenz" /></label>
+            <label>Kennzeichen LKW<input id="snrTruckPlate" placeholder="z. B. CZ-12345" /></label>
+            <label>Kennzeichen Auflieger<input id="snrTrailerPlate" placeholder="z. B. CZ-67890" /></label>
+            <label class="wide">Schadensort<input id="snrLocation" placeholder="Adresse / Koordinaten" /></label>
+            <label class="wide">Was ist passiert?<textarea id="snrDescription" placeholder="Kurze Beschreibung"></textarea></label>
           </div>
-          <div class="actions"><button>Vorgang speichern & SNR vergeben</button><span class="hint">Beispiel: SNR-20260630-STL-001</span></div>
+          <div id="snrResult" class="notice hidden"></div>
+          <div class="actions"><button type="button" onclick="saveSNRClaim()">Vorgang speichern & SNR vergeben</button><span class="hint">Beispiel: SNR-20260630-STL-001</span></div>
         </div>
       </section>
 
@@ -99,17 +100,18 @@
           <h3>Subunternehmer-Haftbarhaltung</h3>
           <div class="notice">Der Fall erhält eine interne SNR, wird aber als externe Haftbarhaltung an den Subunternehmer geführt.</div>
           <div class="form-grid">
-            <label>Subunternehmer<input placeholder="Firma" /></label>
-            <label>E-Mail Subunternehmer<input placeholder="kontakt@subunternehmer.com" /></label>
-            <label>Transport von<input /></label>
-            <label>Transport bis<input /></label>
-            <label>Ladedatum<input type="date" /></label>
-            <label>Entladedatum<input type="date" /></label>
-            <label>Produkt<input /></label>
-            <label>Sendungsnummer<input /></label>
-            <label class="wide">Adresse Subunternehmer<textarea></textarea></label>
+            <label>Subunternehmer<input id="subCompany" placeholder="Firma" /></label>
+            <label>E-Mail Subunternehmer<input id="subEmail" placeholder="kontakt@subunternehmer.com" /></label>
+            <label>Transport von<input id="subTransportFrom" /></label>
+            <label>Transport bis<input id="subTransportTo" /></label>
+            <label>Ladedatum<input id="subLoadingDate" type="date" /></label>
+            <label>Entladedatum<input id="subUnloadingDate" type="date" /></label>
+            <label>Produkt<input id="subProduct" /></label>
+            <label>Sendungsnummer<input id="subShipment" /></label>
+            <label class="wide">Adresse Subunternehmer<textarea id="subAddress"></textarea></label>
           </div>
-          <div class="actions"><button>Haftbarhaltung erstellen</button><button class="secondary">PDF-Vorschau</button></div>
+          <div id="subResult" class="notice hidden"></div>
+          <div class="actions"><button type="button" onclick="saveSubClaim()">Haftbarhaltung erstellen</button><button class="secondary" type="button">PDF-Vorschau</button></div>
         </div>
       </section>
 
@@ -118,29 +120,30 @@
           <h3>Neuer KFZ-Schaden</h3>
           <div class="notice">Nur für Schenk Spedition & Transporte GmbH. Nummernlogik: KFS-YYYYMMDD-XXX.</div>
           <div class="form-grid">
-            <label>Kennzeichen LKW<input placeholder="PF-ST 123" /></label>
-            <label>Kennzeichen Auflieger<input placeholder="PF-ST 456" /></label>
-            <label>Fahrer<input /></label>
-            <label>Unfalldatum<input type="date" /></label>
-            <label>Unfallzeit<input type="time" /></label>
-            <label>Unfallort<input /></label>
-            <label>Unfallgegner<select><option>Ja</option><option>Nein</option><option>Unbekannt</option></select></label>
-            <label>Polizei<select><option>Nein</option><option>Ja</option></select></label>
-            <label class="wide">Unfallbeschreibung<textarea></textarea></label>
+            <label>Kennzeichen LKW<input id="kfsTruckPlate" placeholder="PF-ST 123" /></label>
+            <label>Kennzeichen Auflieger<input id="kfsTrailerPlate" placeholder="PF-ST 456" /></label>
+            <label>Fahrer<input id="kfsDriver" /></label>
+            <label>Unfalldatum<input id="kfsAccidentDate" type="date" /></label>
+            <label>Unfallzeit<input id="kfsAccidentTime" type="time" /></label>
+            <label>Unfallort<input id="kfsAccidentPlace" /></label>
+            <label>Unfallgegner<select id="kfsOpponent"><option>Ja</option><option>Nein</option><option>Unbekannt</option></select></label>
+            <label>Polizei<select id="kfsPolice"><option>Nein</option><option>Ja</option></select></label>
+            <label class="wide">Unfallbeschreibung<textarea id="kfsDescription"></textarea></label>
           </div>
-          <div class="actions"><button>KFS-Schaden speichern</button><span class="hint">Beispiel: KFS-20260630-001</span></div>
+          <div id="kfsResult" class="notice hidden"></div>
+          <div class="actions"><button type="button" onclick="saveKFSClaim()">KFS-Schaden speichern</button><span class="hint">Beispiel: KFS-20260630-001</span></div>
         </div>
       </section>
 
       <section id="detail" class="page">
         <div class="case-header">
-          <div><h3>SNR-20260630-STL-001</h3><p>Transportbeschädigung Ware · STL Express s.r.o.</p></div>
-          <span class="status">In Prüfung / Ermittlung</span>
+          <div><h3 id="detailNumber">SNR-20260630-STL-001</h3><p id="detailSubtitle">Transportbeschädigung Ware · STL Express s.r.o.</p></div>
+          <span class="status" id="detailStatus">In Prüfung / Ermittlung</span>
         </div>
         <div class="tabs"><button>Grunddaten</button><button>Unterlagen</button><button>Betrag</button><button>Versicherung</button><button>Historie</button></div>
         <div class="grid-two">
-          <div class="card"><h3>Grunddaten</h3><p><b>Schadentag:</b> 30.06.2026</p><p><b>Ort:</b> Lyon, Frankreich</p><p><b>Kennzeichen:</b> CZ-12345 / CZ-67890</p><p><b>Auftraggeber:</b> Beispielkunde A</p></div>
-          <div class="card"><h3>Nächster Schritt</h3><p>Handelsrechnung und Haftbarhaltung beim Kunden anfordern.</p><button>Vermerk erfassen</button></div>
+          <div class="card"><h3>Grunddaten</h3><p><b>Schadentag:</b> <span id="detailDamageDate">30.06.2026</span></p><p><b>Ort:</b> <span id="detailPlace">Lyon, Frankreich</span></p><p><b>Kennzeichen:</b> <span id="detailPlates">CZ-12345 / CZ-67890</span></p><p><b>Auftraggeber:</b> <span id="detailClient">Beispielkunde A</span></p></div>
+          <div class="card"><h3>Nächster Schritt</h3><p id="detailNextStep">Handelsrechnung und Haftbarhaltung beim Kunden anfordern.</p><button>Vermerk erfassen</button></div>
         </div>
       </section>
 
