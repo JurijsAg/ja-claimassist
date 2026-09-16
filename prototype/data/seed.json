@@ -1,0 +1,61 @@
+{
+  "companies": [
+    {"id":"C-SCH","code":"SCH","name":"Schenk Spedition & Transporte GmbH","country":"Deutschland"},
+    {"id":"C-STL","code":"STL","name":"STL Express s.r.o.","country":"Tschechien"},
+    {"id":"C-BTS","code":"BTS","name":"UAB Baltijos transporto sistemos","country":"Litauen"},
+    {"id":"C-TRC","code":"TRC","name":"UAB Transcargo express","country":"Litauen"},
+    {"id":"C-LTM","code":"LTM","name":"LTM Express sp. z o.o.","country":"Polen"},
+    {"id":"C-TCL","code":"TCL","name":"TCL Trans s.r.o.","country":"Slowakei"},
+    {"id":"C-RTS","code":"RTS","name":"SARL Royal Trans Solutions","country":"Frankreich"}
+  ],
+  "claims": [
+    {
+      "id":"CASE-001",
+      "number":"SNR-20260630-STL-001",
+      "type":"Transportbeschädigung Ware",
+      "company":"STL",
+      "status":"In Prüfung / Ermittlung",
+      "documentStatus":"Unvollständig",
+      "amount":"2.500,00 EUR geschätzt",
+      "date":"30.06.2026",
+      "location":"Lyon, Frankreich",
+      "client":"Beispielkunde A",
+      "plate":"CZ-12345 / CZ-67890",
+      "kravag":"noch nicht vorhanden",
+      "missing":["Handelsrechnung","Haftbarhaltung / konkrete Forderung"],
+      "present":["Schadensbilder","CMR / POD","Transportauftrag"]
+    },
+    {
+      "id":"CASE-002",
+      "number":"KFS-20260630-001",
+      "type":"KFZ-Schaden / Verkehrsunfall",
+      "company":"SCH",
+      "status":"In Prüfung / Reparatur offen",
+      "documentStatus":"Teilweise vollständig",
+      "amount":"4.800,00 EUR geschätzt",
+      "date":"30.06.2026",
+      "location":"A8 bei Karlsruhe",
+      "client":"intern",
+      "plate":"PF-ST 123 / PF-ST 456",
+      "kravag":"nicht gesetzt",
+      "missing":["KFZ-Gutachten","Schadenanzeige"],
+      "present":["Unfallbilder","Unfallmitteilungsblatt","Kostenvoranschlag"]
+    },
+    {
+      "id":"CASE-003",
+      "number":"SNR-20260701-SUB-001",
+      "type":"Subunternehmer-Haftbarhaltung",
+      "company":"SUB",
+      "status":"Haftbarhaltung vorzubereiten",
+      "documentStatus":"Unvollständig",
+      "amount":"offen",
+      "date":"01.07.2026",
+      "location":"Mailand, Italien",
+      "client":"Beispielkunde B",
+      "plate":"extern",
+      "kravag":"nicht relevant",
+      "missing":["Subunternehmeradresse","Sendungsnummer"],
+      "present":["Transportauftrag","Schadensbilder"]
+    }
+  ]
+}

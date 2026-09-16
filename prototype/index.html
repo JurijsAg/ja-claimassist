@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JA ClaimsAssist – Prototyp</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="login" class="login-page">
+    <div class="login-card">
+      <img src="assets/logo.png" alt="JA ClaimsAssist" class="login-logo" />
+      <h1>Willkommen</h1>
+      <p>Schadenmanagement für die Schenk-Unternehmensgruppe</p>
+      <label>E-Mail</label>
+      <input value="jurijs.agafonovs@schenkspedition.de" />
+      <label>Passwort</label>
+      <input type="password" value="demo" />
+      <button onclick="login()">Anmelden</button>
+      <small>Demo-Prototyp: keine echten Daten verwenden.</small>
+    </div>
+  </div>
+
+  <div id="app" class="app hidden">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="assets/icon.png" alt="Logo" />
+        <div>
+          <strong>JA ClaimsAssist</strong>
+          <span>Mandant: Schenk Gruppe</span>
+        </div>
+      </div>
+      <nav>
+        <button class="nav active" data-page="dashboard">Dashboard</button>
+        <button class="nav" data-page="new-snr">Neuer SNR-Schaden</button>
+        <button class="nav" data-page="sub">Subunternehmer</button>
+        <button class="nav" data-page="kfs">Neuer KFS-Schaden</button>
+        <button class="nav" data-page="detail">Schadenakte</button>
+        <button class="nav" data-page="documents">Unterlagen</button>
+        <button class="nav" data-page="amount">Betrag & Versicherung</button>
+        <button class="nav" data-page="history">Historie</button>
+        <button class="nav" data-page="admin">Admin</button>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h2 id="pageTitle">Dashboard</h2>
+          <p id="pageSub">Übersicht über offene Schadenfälle, Fristen und Unterlagenstatus.</p>
+        </div>
+        <div class="top-actions">
+          <span class="pill">DE</span>
+          <span class="user">Jurijs Agafonovs</span>
+        </div>
+      </header>
+
+      <section id="dashboard" class="page visible">
+        <div class="kpi-grid">
+          <div class="kpi"><span>Offene Vorgänge</span><strong>18</strong></div>
+          <div class="kpi warning"><span>Unterlagen fehlen</span><strong>7</strong></div>
+          <div class="kpi"><span>In Ermittlung</span><strong>5</strong></div>
+          <div class="kpi"><span>An Versicherung</span><strong>4</strong></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h3>Vorgänge</h3>
+            <div><button onclick="showPage('new-snr')">+ Neuer Schaden</button><button onclick="showPage('kfs')">+ KFZ-Schaden</button></div>
+          </div>
+          <input class="search" placeholder="Suche nach SNR / KFS / KRAVAG-Nr. / Kennzeichen / Kunde" />
+          <table>
+            <thead><tr><th>Nummer</th><th>Firma</th><th>Schadenart</th><th>Status</th><th>Unterlagen</th><th>Betrag</th></tr></thead>
+            <tbody id="claimsTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="new-snr" class="page">
+        <div class="card form-card">
+          <h3>Neuer allgemeiner Schaden</h3>
+          <div class="form-grid">
+            <label>Firma<select><option>STL</option><option>BTS</option><option>TRC</option><option>LTM</option><option>TCL</option><option>RTS</option><option>SCH</option></select></label>
+            <label>Schadenart<select><option>Transportbeschädigung Ware</option><option>Verlust / Fehlmenge Ware</option><option>Diebstahl / Raub</option><option>Lieferverzug / Verspätung</option></select></label>
+            <label>Schadentag<input type="date" /></label>
+            <label>Schadenzeit<input type="time" /></label>
+            <label>Auftraggeber<input placeholder="Kunde / Auftraggeber" /></label>
+            <label>Tour Nr.<input placeholder="Tour / Referenz" /></label>
+            <label>Kennzeichen LKW<input placeholder="z. B. CZ-12345" /></label>
+            <label>Kennzeichen Auflieger<input placeholder="z. B. CZ-67890" /></label>
+            <label class="wide">Schadensort<input placeholder="Adresse / Koordinaten" /></label>
+            <label class="wide">Was ist passiert?<textarea placeholder="Kurze Beschreibung"></textarea></label>
+          </div>
+          <div class="actions"><button>Vorgang speichern & SNR vergeben</button><span class="hint">Beispiel: SNR-20260630-STL-001</span></div>
+        </div>
+      </section>
+
+      <section id="sub" class="page">
+        <div class="card form-card">
+          <h3>Subunternehmer-Haftbarhaltung</h3>
+          <div class="notice">Der Fall erhält eine interne SNR, wird aber als externe Haftbarhaltung an den Subunternehmer geführt.</div>
+          <div class="form-grid">
+            <label>Subunternehmer<input placeholder="Firma" /></label>
+            <label>E-Mail Subunternehmer<input placeholder="kontakt@subunternehmer.com" /></label>
+            <label>Transport von<input /></label>
+            <label>Transport bis<input /></label>
+            <label>Ladedatum<input type="date" /></label>
+            <label>Entladedatum<input type="date" /></label>
+            <label>Produkt<input /></label>
+            <label>Sendungsnummer<input /></label>
+            <label class="wide">Adresse Subunternehmer<textarea></textarea></label>
+          </div>
+          <div class="actions"><button>Haftbarhaltung erstellen</button><button class="secondary">PDF-Vorschau</button></div>
+        </div>
+      </section>
+
+      <section id="kfs" class="page">
+        <div class="card form-card">
+          <h3>Neuer KFZ-Schaden</h3>
+          <div class="notice">Nur für Schenk Spedition & Transporte GmbH. Nummernlogik: KFS-YYYYMMDD-XXX.</div>
+          <div class="form-grid">
+            <label>Kennzeichen LKW<input placeholder="PF-ST 123" /></label>
+            <label>Kennzeichen Auflieger<input placeholder="PF-ST 456" /></label>
+            <label>Fahrer<input /></label>
+            <label>Unfalldatum<input type="date" /></label>
+            <label>Unfallzeit<input type="time" /></label>
+            <label>Unfallort<input /></label>
+            <label>Unfallgegner<select><option>Ja</option><option>Nein</option><option>Unbekannt</option></select></label>
+            <label>Polizei<select><option>Nein</option><option>Ja</option></select></label>
+            <label class="wide">Unfallbeschreibung<textarea></textarea></label>
+          </div>
+          <div class="actions"><button>KFS-Schaden speichern</button><span class="hint">Beispiel: KFS-20260630-001</span></div>
+        </div>
+      </section>
+
+      <section id="detail" class="page">
+        <div class="case-header">
+          <div><h3>SNR-20260630-STL-001</h3><p>Transportbeschädigung Ware · STL Express s.r.o.</p></div>
+          <span class="status">In Prüfung / Ermittlung</span>
+        </div>
+        <div class="tabs"><button>Grunddaten</button><button>Unterlagen</button><button>Betrag</button><button>Versicherung</button><button>Historie</button></div>
+        <div class="grid-two">
+          <div class="card"><h3>Grunddaten</h3><p><b>Schadentag:</b> 30.06.2026</p><p><b>Ort:</b> Lyon, Frankreich</p><p><b>Kennzeichen:</b> CZ-12345 / CZ-67890</p><p><b>Auftraggeber:</b> Beispielkunde A</p></div>
+          <div class="card"><h3>Nächster Schritt</h3><p>Handelsrechnung und Haftbarhaltung beim Kunden anfordern.</p><button>Vermerk erfassen</button></div>
+        </div>
+      </section>
+
+      <section id="documents" class="page">
+        <div class="card">
+          <h3>Unterlagen & KI-Prüfung</h3>
+          <div class="upload">Dateien hier ablegen oder hochladen<br><small>PDF, JPG, PNG, DOCX, XLSX, EML, MSG, ZIP</small></div>
+          <div class="doc-grid">
+            <div class="doc ok">✓ Schadensbilder<br><small>vorhanden</small></div>
+            <div class="doc ok">✓ CMR / POD<br><small>vorhanden</small></div>
+            <div class="doc ok">✓ Transportauftrag<br><small>vorhanden</small></div>
+            <div class="doc missing">✕ Handelsrechnung<br><small>fehlt</small></div>
+            <div class="doc missing">✕ Haftbarhaltung<br><small>fehlt</small></div>
+            <div class="doc review">⚠ Fahrer-Erklärung<br><small>bei Bedarf</small></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="amount" class="page">
+        <div class="grid-two">
+          <div class="card form-card"><h3>Schadenbetrag</h3><label>Geschätzter Betrag<input value="2.500,00" /></label><label>Konkrete Forderung<input placeholder="noch nicht vorhanden" /></label><label>Währung<select><option>EUR</option><option>PLN</option><option>CZK</option></select></label><label>Status Betrag<select><option>geschätzt</option><option>konkrete Forderung liegt vor</option><option>in Prüfung</option><option>bezahlt</option></select></label></div>
+          <div class="card form-card"><h3>Versicherung</h3><label>Versicherer<input value="KRAVAG-LOGISTIC Versicherungs-AG" /></label><label>Police-Nr.<input value="762 85 351090839" /></label><label>KRAVAG-Schadennummer<input placeholder="noch nicht vorhanden" /></label><button>An Versicherung melden</button></div>
+        </div>
+      </section>
+
+      <section id="history" class="page">
+        <div class="card">
+          <h3>Historie / Vermerke</h3>
+          <div class="timeline">
+            <div><b>30.06.2026 10:15 · STL Dispo</b><p>Schaden gemeldet. Fotos und CMR hochgeladen.</p></div>
+            <div><b>30.06.2026 11:40 · Jurijs Agafonovs</b><p>Kunde telefonisch kontaktiert. Handelsrechnung angefordert.</p></div>
+            <div><b>30.06.2026 14:20 · System</b><p>Status geändert: Unterlagen unvollständig.</p></div>
+          </div>
+          <textarea placeholder="Neuen Vermerk erfassen..."></textarea><button>Vermerk speichern</button>
+        </div>
+      </section>
+
+      <section id="admin" class="page">
+        <div class="grid-two">
+          <div class="card"><h3>Nutzer & Rollen</h3><table><tr><th>Name</th><th>Firma</th><th>Rolle</th><th>Status</th></tr><tr><td>Jurijs Agafonovs</td><td>Gruppe</td><td>Schadenmanager</td><td>aktiv</td></tr><tr><td>STL Manager</td><td>STL</td><td>Firmen-Manager</td><td>aktiv</td></tr></table></div>
+          <div class="card"><h3>Stammdaten</h3><p>Firmen, Schadenarten, Dokumenttypen, Versicherungen und Subunternehmer verwalten.</p><button>Neuen Nutzer anlegen</button></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
